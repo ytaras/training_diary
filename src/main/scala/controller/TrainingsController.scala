@@ -18,7 +18,8 @@ class TrainingsController extends SkinnyResource with ApplicationController {
   override def viewsDirectoryPath = s"/${resourcesName}"
 
   override def createParams = Params(params).withDate("date")
-  override def createForm = validation(createParams,
+  override def createForm = validation(
+    createParams,
     paramKey("date") is required & dateFormat,
     paramKey("comment") is required & maxLength(512)
   )
@@ -28,7 +29,8 @@ class TrainingsController extends SkinnyResource with ApplicationController {
   )
 
   override def updateParams = Params(params).withDate("date")
-  override def updateForm = validation(updateParams,
+  override def updateForm = validation(
+    updateParams,
     paramKey("date") is required & dateFormat,
     paramKey("comment") is required & maxLength(512)
   )

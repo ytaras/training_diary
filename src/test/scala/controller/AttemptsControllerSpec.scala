@@ -7,24 +7,37 @@ import org.joda.time._
 import model._
 
 // NOTICE before/after filters won't be executed by default
-class TrainingsControllerSpec extends FunSpec with Matchers with BeforeAndAfterAll with DBSettings {
+class AttemptsControllerSpec extends FunSpec with Matchers with BeforeAndAfterAll with DBSettings {
 
   override def afterAll() {
     super.afterAll()
+    Attempt.deleteAll()
     Training.deleteAll()
+    Exercise.deleteAll()
+    Shooter.deleteAll()
   }
 
-  def createMockController = new TrainingsController with MockController
-  def newTraining = FactoryGirl(Training).create()
+  def createMockController = new AttemptsController with MockController
+  def shooterId = FactoryGirl(Shooter).create().id
+  def trainingId = FactoryGirl(Training).create().id
+  def exerciseId = FactoryGirl(Exercise).create().id
+  def newAttempt = {
+    FactoryGirl(Attempt)
+      .withVariables(
+        'trainingId -> trainingId,
+        'shooterId -> shooterId,
+        'exerciseId -> exerciseId
+      ).create()
+  }
 
-  describe("TrainingsController") {
+  describe("AttemptsController") {
 
-    describe("shows trainings") {
+    describe("shows attempts") {
       it("shows HTML response") {
         val controller = createMockController
         controller.showResources()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/trainings/index"))
+        controller.renderCall.map(_.path) should equal(Some("/attempts/index"))
         controller.contentType should equal("text/html; charset=utf-8")
       }
 
@@ -33,19 +46,19 @@ class TrainingsControllerSpec extends FunSpec with Matchers with BeforeAndAfterA
         val controller = createMockController
         controller.showResources()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/trainings/index"))
+        controller.renderCall.map(_.path) should equal(Some("/attempts/index"))
         controller.contentType should equal("application/json; charset=utf-8")
       }
     }
 
-    describe("shows a training") {
+    describe("shows a attempt") {
       it("shows HTML response") {
-        val training = newTraining
+        val attempt = newAttempt
         val controller = createMockController
-        controller.showResource(training.id)
+        controller.showResource(attempt.id)
         controller.status should equal(200)
-        controller.getFromRequestScope[Training]("item") should equal(Some(training))
-        controller.renderCall.map(_.path) should equal(Some("/trainings/show"))
+        controller.getFromRequestScope[Attempt]("item") should equal(Some(attempt))
+        controller.renderCall.map(_.path) should equal(Some("/attempts/show"))
       }
     }
 
@@ -54,16 +67,18 @@ class TrainingsControllerSpec extends FunSpec with Matchers with BeforeAndAfterA
         val controller = createMockController
         controller.newResource()
         controller.status should equal(200)
-        controller.renderCall.map(_.path) should equal(Some("/trainings/new"))
+        controller.renderCall.map(_.path) should equal(Some("/attempts/new"))
       }
     }
 
-    describe("creates a training") {
+    describe("creates a attempt") {
       it("succeeds with valid parameters") {
         val controller = createMockController
         controller.prepareParams(
-          "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
-          "comment" -> "dummy"
+          "training_id" -> trainingId.toString,
+          "exercise_id" -> exerciseId.toString,
+          "shooter_id" -> shooterId.toString,
+          "result" -> 54.44.toString
         )
         controller.createResource()
         controller.status should equal(200)
@@ -79,28 +94,30 @@ class TrainingsControllerSpec extends FunSpec with Matchers with BeforeAndAfterA
     }
 
     it("shows a resource edit input form") {
-      val training = newTraining
+      val attempt = newAttempt
       val controller = createMockController
-      controller.editResource(training.id)
+      controller.editResource(attempt.id)
       controller.status should equal(200)
-      controller.renderCall.map(_.path) should equal(Some("/trainings/edit"))
+      controller.renderCall.map(_.path) should equal(Some("/attempts/edit"))
     }
 
-    it("updates a training") {
-      val training = newTraining
+    it("updates a attempt") {
+      val attempt = newAttempt
       val controller = createMockController
       controller.prepareParams(
-        "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
-        "comment" -> "dummy"
+        "training_id" -> trainingId.toString,
+        "exercise_id" -> exerciseId.toString,
+        "shooter_id" -> shooterId.toString,
+        "result" -> 34.44.toString
       )
-      controller.updateResource(training.id)
+      controller.updateResource(attempt.id)
       controller.status should equal(200)
     }
 
-    it("destroys a training") {
-      val training = newTraining
+    it("destroys a attempt") {
+      val attempt = newAttempt
       val controller = createMockController
-      controller.destroyResource(training.id)
+      controller.destroyResource(attempt.id)
       controller.status should equal(200)
     }
 

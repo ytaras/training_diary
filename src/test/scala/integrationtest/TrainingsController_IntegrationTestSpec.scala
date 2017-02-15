@@ -59,23 +59,27 @@ class TrainingsController_IntegrationTestSpec extends SkinnyFlatSpec with Skinny
   }
 
   it should "create a training" in {
-    post(s"/trainings",
+    post(
+      s"/trainings",
       "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
-      "comment" -> "dummy") {
-      logBodyUnless(403)
-      status should equal(403)
-    }
+      "comment" -> "dummy"
+    ) {
+        logBodyUnless(403)
+        status should equal(403)
+      }
 
     withSession("csrf-token" -> "valid_token") {
-      post(s"/trainings",
+      post(
+        s"/trainings",
         "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
         "comment" -> "dummy",
-        "csrf-token" -> "valid_token") {
-        logBodyUnless(302)
-        status should equal(302)
-        val id = header("Location").split("/").last.toLong
-        Training.findById(id).isDefined should equal(true)
-      }
+        "csrf-token" -> "valid_token"
+      ) {
+          logBodyUnless(302)
+          status should equal(302)
+          val id = header("Location").split("/").last.toLong
+          Training.findById(id).isDefined should equal(true)
+        }
     }
   }
 
@@ -87,21 +91,25 @@ class TrainingsController_IntegrationTestSpec extends SkinnyFlatSpec with Skinny
   }
 
   it should "update a training" in {
-    put(s"/trainings/${newTraining.id}",
+    put(
+      s"/trainings/${newTraining.id}",
       "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
-      "comment" -> "dummy") {
-      logBodyUnless(403)
-      status should equal(403)
-    }
+      "comment" -> "dummy"
+    ) {
+        logBodyUnless(403)
+        status should equal(403)
+      }
 
     withSession("csrf-token" -> "valid_token") {
-      put(s"/trainings/${newTraining.id}",
+      put(
+        s"/trainings/${newTraining.id}",
         "date" -> skinny.util.DateTimeUtil.toString(new LocalDate()),
         "comment" -> "dummy",
-        "csrf-token" -> "valid_token") {
-        logBodyUnless(302)
-        status should equal(302)
-      }
+        "csrf-token" -> "valid_token"
+      ) {
+          logBodyUnless(302)
+          status should equal(302)
+        }
     }
   }
 
