@@ -6,6 +6,7 @@ import skinny.controller.AssetsController
 object Controllers {
 
   def mount(ctx: ServletContext): Unit = {
+    exercises.mount(ctx)
     shooters.mount(ctx)
     root.mount(ctx)
     AssetsController.mount(ctx)
@@ -16,6 +17,9 @@ object Controllers {
   }
 
   object shooters extends _root_.controller.ShootersController with Routes {
+  }
+
+  object exercises extends _root_.controller.ExercisesController with Routes {
   }
 
 }
