@@ -1,0 +1,57 @@
+<%@val s: skinny.Skinny %>
+<%@val keyAndErrorMessages: skinny.KeyAndErrorMessages %>
+
+<%-- Be aware of package imports.
+ 1. src/main/scala/templates/ScalatePackage.scala
+ 2. scalateTemplateConfig in project/Build.scala
+--%>
+
+<div class="form-group">
+  <label class="control-label">
+    ${s.i18n.getOrKey("training.date")}
+  </label>
+  <div class="controls row">
+    <div class="${if(keyAndErrorMessages.hasErrors("date")) "has-error" else ""}">
+      <div class="col-xs-2">
+        <input type="text" name="date_year"  class="form-control" value="${s.params.date_year}"  placeholder="${s.i18n.getOrKey("year")}"  maxlength=4 />
+      </div>
+      <div class="col-xs-2">
+        <input type="text" name="date_month" class="form-control" value="${s.params.date_month}" placeholder="${s.i18n.getOrKey("month")}" maxlength=2 />
+      </div>
+      <div class="col-xs-2">
+        <input type="text" name="date_day"   class="form-control" value="${s.params.date_day}"   placeholder="${s.i18n.getOrKey("day")}"   maxlength=2 />
+      </div>
+    </div>
+    #if (keyAndErrorMessages.hasErrors("date"))
+      <div class="col-xs-12 has-error">
+        #for (error <- keyAndErrorMessages.getErrors("date"))
+          <label class="control-label">${error}</label>
+        #end
+      </div>
+    #end
+  </div>
+</div>
+<div class="form-group">
+  <label class="control-label" for="comment">
+    ${s.i18n.getOrKey("training.comment")}
+  </label>
+  <div class="controls row">
+    <div class="${if(keyAndErrorMessages.hasErrors("comment")) "has-error" else ""}">
+      <div class="col-xs-12">
+        <input type="text" name="comment" class="form-control" value="${s.params.comment}" />
+      </div>
+    </div>
+    #if (keyAndErrorMessages.hasErrors("comment"))
+      <div class="col-xs-12 has-error">
+        #for (error <- keyAndErrorMessages.getErrors("comment"))
+          <label class="control-label">${error}</label>
+        #end
+      </div>
+    #end
+  </div>
+</div>
+<div class="form-actions">
+  ${unescape(s.csrfHiddenInputTag)}
+  <input type="submit" class="btn btn-primary" value="${s.i18n.getOrKey("submit")}">
+  <a class="btn btn-default" href="${s.url(Controllers.trainings.indexUrl)}">${s.i18n.getOrKey("cancel")}</a>
+</div>
