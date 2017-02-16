@@ -3,7 +3,7 @@ package controller
 import skinny._
 import skinny.validator._
 import _root_.controller._
-import model.Attempt
+import model.{ Attempt, Training }
 
 class AttemptsController extends SkinnyResource with ApplicationController {
   protectFromForgery()
@@ -46,5 +46,23 @@ class AttemptsController extends SkinnyResource with ApplicationController {
     "shooter_id" -> ParamType.Long,
     "result" -> ParamType.Double
   )
+
+  override def editResource(id: Long)(implicit format: Format = Format.HTML): Any = withFormat(format) {
+    findResource(id).map { m =>
+      status = 200
+      format match {
+        case Format.HTML =>
+          setAsParams(m)
+          set("trainingsDictionary", Training.listForDictionary())
+          render(s"${viewsDirectoryPath}/edit")
+        case _ =>
+      }
+    } getOrElse haltWithBody(404)
+  }
+
+  override def newResource()(implicit format: Format = Format.HTML): Any = withFormat(format) {
+    set("trainingsDictionary", Training.listForDictionary())
+    render(s"${viewsDirectoryPath}/new")
+  }
 
 }

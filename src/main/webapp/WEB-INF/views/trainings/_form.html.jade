@@ -1,0 +1,79 @@
+-@val s: skinny.Skinny
+-@val keyAndErrorMessages: skinny.KeyAndErrorMessages
+
+-# Be aware of package imports.
+-# 1. src/main/scala/templates/ScalatePackage.scala
+-# 2. scalateTemplateConfig in project/Build.scala
+
+div(class="form-group")
+  label(class="control-label") #{s.i18n.getOrKey("training.date")}
+  div(class="controls row")
+    div(class={if(keyAndErrorMessages.hasErrors("date")) "has-error" else ""})
+      div(class="col-xs-2")
+        input(type="text" name="date_year"   class="form-control" value={s.params.date_year}   placeholder={s.i18n.getOrKey("year")}   maxlength=4)
+      div(class="col-xs-2")
+        input(type="text" name="date_month"  class="form-control" value={s.params.date_month}  placeholder={s.i18n.getOrKey("month")}  maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="date_day"    class="form-control" value={s.params.date_day}    placeholder={s.i18n.getOrKey("day")}    maxlength=2)
+    - keyAndErrorMessages.get("date").map { errors =>
+      div(class="col-xs-12 has-error")
+        - for (error <- errors)
+          label(class="control-label") #{error}
+    - }
+div(class="form-group")
+  label(class="control-label" for="comment") #{s.i18n.getOrKey("training.comment")}
+  div(class="controls row")
+    div(class={if(keyAndErrorMessages.hasErrors("comment")) "has-error" else ""})
+      div(class="col-xs-12")
+        input(type="text" name="comment" class="form-control" value={s.params.comment})
+    - keyAndErrorMessages.get("comment").map { errors =>
+      div(class="col-xs-12 has-error")
+        - for (error <- errors)
+          label(class="control-label") #{error}
+    - }
+div(class="form-group")
+  label(class="control-label") #{s.i18n.getOrKey("training.createdAt")}
+  div(class="controls row")
+    div(class={if(keyAndErrorMessages.hasErrors("created_at")) "has-error" else ""})
+      div(class="col-xs-2")
+        input(type="text" name="created_at_year"   class="form-control" value={s.params.created_at_year}   placeholder={s.i18n.getOrKey("year")}   maxlength=4)
+      div(class="col-xs-2")
+        input(type="text" name="created_at_month"  class="form-control" value={s.params.created_at_month}  placeholder={s.i18n.getOrKey("month")}  maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="created_at_day"    class="form-control" value={s.params.created_at_day}    placeholder={s.i18n.getOrKey("day")}    maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="created_at_hour"   class="form-control" value={s.params.created_at_hour}   placeholder={s.i18n.getOrKey("hour")}   maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="created_at_minute" class="form-control" value={s.params.created_at_minute} placeholder={s.i18n.getOrKey("minute")} maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="created_at_second" class="form-control" value={s.params.created_at_second} placeholder={s.i18n.getOrKey("second")} maxlength=2)
+    - keyAndErrorMessages.get("created_at").map { errors =>
+      div(class="col-xs-12 has-error")
+        - for (error <- errors)
+          label(class="control-label") #{error}
+    - }
+div(class="form-group")
+  label(class="control-label") #{s.i18n.getOrKey("training.updatedAt")}
+  div(class="controls row")
+    div(class={if(keyAndErrorMessages.hasErrors("updated_at")) "has-error" else ""})
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_year"   class="form-control" value={s.params.updated_at_year}   placeholder={s.i18n.getOrKey("year")}   maxlength=4)
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_month"  class="form-control" value={s.params.updated_at_month}  placeholder={s.i18n.getOrKey("month")}  maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_day"    class="form-control" value={s.params.updated_at_day}    placeholder={s.i18n.getOrKey("day")}    maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_hour"   class="form-control" value={s.params.updated_at_hour}   placeholder={s.i18n.getOrKey("hour")}   maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_minute" class="form-control" value={s.params.updated_at_minute} placeholder={s.i18n.getOrKey("minute")} maxlength=2)
+      div(class="col-xs-2")
+        input(type="text" name="updated_at_second" class="form-control" value={s.params.updated_at_second} placeholder={s.i18n.getOrKey("second")} maxlength=2)
+    - keyAndErrorMessages.get("updated_at").map { errors =>
+      div(class="col-xs-12 has-error")
+        - for (error <- errors)
+          label(class="control-label") #{error}
+    - }
+div(class="form-actions")
+  =unescape(s.csrfHiddenInputTag)
+  input(type="submit" class="btn btn-primary" value={s.i18n.getOrKey("submit")})
+    a(class="btn btn-default" href={s.url(Controllers.trainings.indexUrl)}) #{s.i18n.getOrKey("cancel")}

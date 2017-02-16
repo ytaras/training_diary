@@ -1,0 +1,34 @@
+-@val item: model.Training
+-@val s: skinny.Skinny
+
+-# Be aware of package imports.
+-# 1. src/main/scala/templates/ScalatePackage.scala
+-# 2. scalateTemplateConfig in project/Build.scala
+
+h3 #{s.i18n.getOrKey("training.detail")}
+hr
+-for (notice <- s.flash.notice)
+  p(class="alert alert-info") #{notice}
+table(class="table table-bordered")
+  thead
+    tr
+      th #{s.i18n.getOrKey("training.id")}
+      td #{item.id}
+    tr
+      th #{s.i18n.getOrKey("training.date")}
+      td #{item.date}
+    tr
+      th #{s.i18n.getOrKey("training.comment")}
+      td #{item.comment}
+    tr
+      th #{s.i18n.getOrKey("training.createdAt")}
+      td #{item.createdAt}
+    tr
+      th #{s.i18n.getOrKey("training.updatedAt")}
+      td #{item.updatedAt}
+
+hr
+div(class="form-actions")
+  a(class="btn btn-default" href={s.url(Controllers.trainings.indexUrl)}) #{s.i18n.getOrKey("backToList")}
+  a(href={s.url(Controllers.trainings.editUrl, "id" -> item.id)} class="btn btn-info") #{s.i18n.getOrKey("edit")}
+  a(data-method="delete" data-confirm={s.i18n.getOrKey("training.delete.confirm")} href={s.url(Controllers.trainings.destroyUrl, "id" -> item.id)} rel="nofollow" class="btn btn-danger") #{s.i18n.getOrKey("delete")}

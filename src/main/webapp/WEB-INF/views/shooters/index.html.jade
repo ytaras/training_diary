@@ -1,0 +1,51 @@
+-@val s: skinny.Skinny
+-@val items: Seq[model.Shooter]
+-@val totalPages: Int
+-@val page: Int = s.params.page.map(_.toString.toInt).getOrElse(1)
+
+-# Be aware of package imports.
+-# 1. src/main/scala/templates/ScalatePackage.scala
+-# 2. scalateTemplateConfig in project/Build.scala
+
+h3 #{s.i18n.getOrKey("shooter.list")}
+hr
+-for (notice <- s.flash.notice)
+  p(class="alert alert-info") #{notice}
+
+- if (totalPages > 1)
+  ul.pagination
+    li
+      a(href={s.url(Controllers.shooters.indexUrl, "page" -> 1)}) &laquo;
+    -val maxPage = Math.min(totalPages, if (page <= 5) 11 else page + 5)
+    -for (i <- Math.max(1, maxPage - 10) to maxPage)
+      li(class={if (i == page) "active" else ""})
+        a(href={s.url(Controllers.shooters.indexUrl, "page" -> i)}) #{i}
+    li
+      a(href={s.url(Controllers.shooters.indexUrl, "page" -> totalPages)}) &raquo;
+    li
+      span #{Math.min(page, totalPages)} / #{totalPages}
+
+table(class="table table-bordered")
+  thead
+    tr
+      th #{s.i18n.getOrKey("shooter.id")}
+      th #{s.i18n.getOrKey("shooter.name")}
+      th #{s.i18n.getOrKey("shooter.createdAt")}
+      th #{s.i18n.getOrKey("shooter.updatedAt")}
+      th
+  tbody
+  -for (item <- items)
+    tr
+      td #{item.id}
+      td #{item.name}
+      td #{item.createdAt}
+      td #{item.updatedAt}
+      td
+        a(href={s.url(Controllers.shooters.showUrl, "id" -> item.id)} class="btn btn-default") #{s.i18n.getOrKey("detail")}
+        a(href={s.url(Controllers.shooters.editUrl, "id" -> item.id)} class="btn btn-info") #{s.i18n.getOrKey("edit")}
+        a(data-method="delete" data-confirm={s.i18n.getOrKey("shooter.delete.confirm")} href={s.url(Controllers.shooters.destroyUrl, "id" -> item.id)} rel="nofollow" class="btn btn-danger") #{s.i18n.getOrKey("delete")}
+  -if (items.isEmpty)
+    tr
+      td(colspan="5") #{s.i18n.getOrKey("empty")}
+
+a(href={s.url(Controllers.shooters.newUrl)} class="btn btn-primary") #{s.i18n.getOrKey("new")}

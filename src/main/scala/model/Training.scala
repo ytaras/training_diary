@@ -14,6 +14,10 @@ case class Training(
 )
 
 object Training extends SkinnyCRUDMapper[Training] with TimestampsFeature[Training] {
+  // FIXME - Found how to select only columns which needed
+  def listForDictionary(): Seq[(Long, String)] = where().orderBy(defaultAlias.date)
+    .apply().map { x => (x.id, s"${x.date} ${x.comment}") }
+
   override lazy val tableName = "trainings"
   override lazy val defaultAlias = createAlias("t")
 
