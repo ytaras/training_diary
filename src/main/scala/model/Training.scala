@@ -8,6 +8,7 @@ case class Training(
   id: Long,
   date: LocalDate,
   comment: String,
+  attempts: Seq[Attempt] = Nil,
   createdAt: DateTime,
   updatedAt: DateTime
 )
@@ -15,6 +16,13 @@ case class Training(
 object Training extends SkinnyCRUDMapper[Training] with TimestampsFeature[Training] {
   override lazy val tableName = "trainings"
   override lazy val defaultAlias = createAlias("t")
+
+  lazy val attemptsRef = hasMany[Attempt](
+    many = Attempt -> Attempt.defaultAlias,
+    on = (t, a) => sqls.eq(t.id, a.trainingId),
+    merge = (t, atts) => t.copy(attempts = atts)
+
+  )
 
   /*
    * If you're familiar with ScalikeJDBC/Skinny ORM, using #autoConstruct makes your mapper simpler.
