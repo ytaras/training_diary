@@ -12,6 +12,7 @@ class ScalatePackage extends TemplatePackage {
   def header(source: TemplateSource, bindings: List[Binding]) = """
 import controller._
 import model._
+import templates.Snippets._
   """
 
 }

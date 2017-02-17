@@ -11,10 +11,7 @@ div(class="form-group")
   div(class="controls row")
     div(class={if(keyAndErrorMessages.hasErrors("training_id")) "has-error" else ""})
       div(class="col-xs-12")
-        select.form-control(value={s.params.training_id} name="training_id")
-          - for ((id, name) <- trainingsDictionary)
-            option(value={id} selected={s.params.training_id.contains(id)})= name
-        -# input(type="text" name="training_id" class="form-control" value={s.params.training_id})
+        = combobox("training_id", s.params.training_id, trainingsDictionary)
     - keyAndErrorMessages.get("training_id").map { errors =>
       div(class="col-xs-12 has-error")
         - for (error <- errors)
