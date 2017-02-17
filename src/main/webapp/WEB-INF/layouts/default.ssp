@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8"/>
     ${unescape(s.csrfMetaTags)}
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.min.js"></script>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.7/css/bootstrap-combobox.css"/>
+    <script type="text/javascript" src="/webjars/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap-combobox/1.1.7/css/bootstrap-combobox.css"/>
   </head>
   <body>
     <div class="container span12">
@@ -15,9 +15,9 @@
       <hr/>
       <a class="btn btn-default" href="${uri("/")}">${s.i18n.get("top")}</a>
     </div>
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="${uri("/assets/js/skinny-framework.js")}"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-combobox/1.1.7/js/bootstrap-combobox.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap-combobox/1.1.7/js/bootstrap-combobox.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
           $('select').combobox();
